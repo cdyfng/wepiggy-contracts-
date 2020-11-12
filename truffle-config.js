@@ -1,3 +1,5 @@
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+
 module.exports = {
   // Uncommenting the defaults below 
   // provides for an easier quick-start with Ganache.
@@ -11,6 +13,13 @@ module.exports = {
       port: 8545,
       network_id: "*"
     },
+    ropsten: {
+      provider: new HDWalletProvider(process.env.DEPLOYMENT_ACCOUNT_KEY, "https://ropsten.infura.io/v3/" + process.env.INFURA_API_KEY),
+      network_id: 3,
+      gas: 5000000,
+    gasPrice: 20000000000, // 5 Gwei -> 20 Gwei
+    skipDryRun: true
+    },    
   //  test: {
   //    host: "127.0.0.1",
   //    port: 7545,
@@ -29,6 +38,14 @@ module.exports = {
       //  evmVersion: "byzantium"
       // }
     }
+  },
+  
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    //etherscan: keys.etherscan
+    etherscan: process.env.ETHERSCAN_KEYS
   }
   //
 };
